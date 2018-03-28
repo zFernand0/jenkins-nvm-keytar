@@ -24,4 +24,7 @@ RUN apt-get install -y nodejs build-essential maven ca-certificates-java && upda
 
 RUN npm install npm --global
 
+## Installs the libsecret library required by keytar
+RUN apt-get install -y libsecret-1-dev
+
 CMD ["/usr/sbin/sshd", "-D"]
