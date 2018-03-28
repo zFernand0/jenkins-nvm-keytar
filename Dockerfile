@@ -1,11 +1,6 @@
 # This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node. based on evarga/jenkins-slave
 FROM evarga/jenkins-slave
 
-# Make sure the package repository is up to date
-RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-RUN add-apt-repository -y ppa:git-core/ppa
-RUN apt-get update -q
-
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 # Install curl, maven,
