@@ -22,11 +22,12 @@ sshpass \
 RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 RUN apt-get install -y nodejs expect build-essential maven ca-certificates-java && update-ca-certificates -f
 
+# Make the global npm install directory and update the environmental variables
 RUN mkdir /.npm-global
-
 ENV NPM_CONFIG_PREFIX=/.npm-global
 ENV PATH=/.npm-global/bin:$PATH
 
+# Grab the latest version of npm and put it in the new space
 RUN npm install npm --global
 
 # Adjust permissions so that the jenkins user can execute global npm commands
