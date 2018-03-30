@@ -9,8 +9,9 @@ RUN apt-get install -y gnome-keyring libsecret-1-dev
 RUN rm /etc/pam.d/login
 COPY login /etc/pam.d/login
 
-# Copy the .bashrc configuration with additional options for auto launching a dbus-session
-RUN rm /home/jenkins/.bashrc
-COPY .bashrc /home/jenkins/.bashrc
+# Add to the .bashrc configuration with additional options for auto launching a dbus-session
+COPY .bashrc /home/jenkins/.bashrc_temp
+RUN cat /home/jenkins/.bashrc_temp>>/home/jenkins/.bashrc
+RUN rm /home/jenkins/.bashrc_temp
 
 CMD ["/usr/sbin/sshd", "-D"]
