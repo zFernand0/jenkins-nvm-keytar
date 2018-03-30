@@ -14,7 +14,7 @@ fi
 
 if [ "$1" = "bash" ] ; then 
    echo "running in bash mode"
-   docker run --name $CONTAINER_NAME -it -p 4873:4873 --user jenkins $IMAGE_NAME bash
+   docker run --name $CONTAINER_NAME -it -p 4873:4873 --privileged --user jenkins $IMAGE_NAME bash
 elif [ "$1" = "clean" ] ; then 
    echo "clean up container"
 else
