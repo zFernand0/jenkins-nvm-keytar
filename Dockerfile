@@ -1,8 +1,6 @@
 # This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node. based on evarga/jenkins-slave
 FROM wrich04ca/jenkins-agent
 
-USER root
-
 # Install minimum required software
 RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" >> /etc/apt/sources.list
 RUN apt-get update
@@ -27,18 +25,15 @@ RUN apt-get install -y nodejs expect build-essential maven ca-certificates-java 
 RUN npm install npm --global
 
 ## Installs the libsecret library required by keytar
-RUN apt-get install -y gnome-keyring libsecret-1-dev libsecret-tools
+RUN apt-get install -y gnome-keyring libsecret-1-dev
+
+RUN apt-get install libsecret-tools
 
 # Fingers crossed
 RUN rm /etc/pam.d/login
-# RUN rm /etc/pam.d/passwd
 RUN rm /home/jenkins/.bashrc
 
 COPY login /etc/pam.d/login
-# COPY passwd /etc/pam.d/passwd
 COPY .bashrc /home/jenkins/.bashrc
-
-# ENV DISPLAY=localhost:0.0
-# RUN secret-tool store --label="example" foo bar
 
 CMD ["/usr/sbin/sshd", "-D"]
