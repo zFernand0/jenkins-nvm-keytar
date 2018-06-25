@@ -1,6 +1,6 @@
 # This Dockerfile is used to build an image capable of running the npm keytar node module
 # IT MUST BE RUN AS PRIVELEGED IN ORDER TO PROPERLY OPERATE
-FROM wrich04ca/jenkins-npm-agent
+FROM ahumanfromca/jenkins-npm-agent
 
 # Installs the libsecret library required by keytar
 RUN apt-get install -y gnome-keyring libsecret-1-dev
