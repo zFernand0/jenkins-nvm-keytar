@@ -3,7 +3,7 @@
 FROM ahumanfromca/jenkins-npm-agent
 
 # Installs the libsecret library required by keytar
-RUN apt-get install -y gnome-keyring libsecret-1-dev
+RUN apt-get update && apt-get install -y gnome-keyring libsecret-1-dev
 
 # Copy the PAM configuration to allow unlocking of the gnome keyring
 RUN rm /etc/pam.d/login
