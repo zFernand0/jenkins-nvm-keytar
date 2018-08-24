@@ -2,36 +2,39 @@
 # IT MUST BE RUN AS PRIVELEGED IN ORDER TO PROPERLY OPERATE
 FROM ahumanfromca/jenkins-npm-agent
 
+USER root
+
 # Installs the libsecret library required by keytar
 RUN apt-get update && apt-get install -y gnome-keyring libsecret-1-dev
 
-ARG tempLocation=/tmp/jenkins-npm-keytar
-RUN mkdir ${tempLocation}
+ARG tempDir=/tmp/jenkins-npm-keytar
+ARG sshEnv=/etc/profile.d/dbus_start.sh
+ARG bashEnv=/etc/bash.bashrc
+
+RUN mkdir ${tempDir}
 
 # Copy the PAM configuration options to allow auto unlocking of the gnome keyring
-COPY pam.config ${tempLocation}/pam.config
+COPY pam.config ${tempDir}/pam.config
 
 # Enable unlocking for ssh
-RUN cat ${tempLocation}/pam.config>>/etc/pam.d/sshd
+RUN cat ${tempDir}/pam.config>>/etc/pam.d/sshd
 
 # Enable unlocking for regular login
-RUN cat ${tempLocation}/pam.config>>/etc/pam.d/login
+RUN cat ${tempDir}/pam.config>>/etc/pam.d/login
 
-# Copy the profile script that needs to run to allow autostart of the dbus session without a display
-COPY dbus_start ${tempLocation}/dbus_start
+# Copy the profile script 
+COPY dbus_start ${tempDir}/dbus_start
 
-# Enable dbus for ssh and most other native shells
-ARG profileLoc=/etc/profile.d/dbus_start.sh
-RUN touch ${profileLoc} \
-    && echo '#!/bin/sh'>>${profileLoc} \
-    && cat ${tempLocation}/dbus_start>>${profileLoc}
+# Enable dbus for ssh and most other native shells (interactive)
+RUN touch ${sshEnv} \
+    && echo '#!/bin/sh'>>${sshEnv} \
+    && cat ${tempDir}/dbus_start>>${sshEnv}
 
 # Enable for all bash profiles
-ARG globalBashrc=/etc/bash.bashrc
-RUN touch ${globalBashrc} \
-    && cat ${tempLocation}/dbus_start>>${globalBashrc}
+# Add the dbus launch before exiting when not running interactively
+RUN sed -i -e "/# If not running interactively, don't do anything/r ${tempDir}/dbus_start" -e //N ${bashEnv}
 
 # Cleanup any temp files we have created
-RUN rm -rdf ${tempLocation}
+RUN rm -rdf ${tempDir}
 
 CMD ["/usr/sbin/sshd", "-D"]
