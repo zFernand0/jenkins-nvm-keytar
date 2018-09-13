@@ -1,5 +1,5 @@
 # This Dockerfile is used to build an image capable of running the npm keytar node module
-# IT MUST BE RUN AS PRIVELEGED IN ORDER TO PROPERLY OPERATE
+# It must be given the capability of IPC_LOCK or be run in privilaged mode to properly operate
 FROM ahumanfromca/jenkins-npm-agent
 
 USER root
@@ -11,16 +11,18 @@ ARG tempDir=/tmp/jenkins-npm-keytar
 ARG sshEnv=/etc/profile.d/dbus_start.sh
 ARG bashEnv=/etc/bash.bashrc
 
+ARG loginFile=pam.d.config
+
 RUN mkdir ${tempDir}
 
 # Copy the PAM configuration options to allow auto unlocking of the gnome keyring
-COPY pam.config ${tempDir}/pam.config
+COPY ${loginFile} ${tempDir}/${loginFile}
 
 # Enable unlocking for ssh
-RUN cat ${tempDir}/pam.config>>/etc/pam.d/sshd
+RUN cat ${tempDir}/${loginFile}>>/etc/pam.d/sshd
 
 # Enable unlocking for regular login
-RUN cat ${tempDir}/pam.config>>/etc/pam.d/login
+RUN cat ${tempDir}/${loginFile}>>/etc/pam.d/login
 
 # Copy the profile script 
 COPY dbus_start ${tempDir}/dbus_start

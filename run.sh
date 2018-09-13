@@ -14,12 +14,12 @@ fi
 
 if [ "$1" = "bash" ] ; then 
    echo "running in bash mode"
-   docker run --name $CONTAINER_NAME -it -p 4873:4873 --privileged --user jenkins $IMAGE_NAME bash
+   docker run --name $CONTAINER_NAME -it -p 4873:4873 --cap-add ipc_lock --user jenkins $IMAGE_NAME bash
 elif [ "$1" = "clean" ] ; then 
    echo "clean up container"
 else
    echo "running in daemon mode"
-   docker run --name $CONTAINER_NAME -d -p 4873:4873 --privileged $IMAGE_NAME
+   docker run --name $CONTAINER_NAME -d -p 4873:4873 --cap-add ipc_lock $IMAGE_NAME
 
    echo "Container IP:"
    IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $CONTAINER_NAME)
