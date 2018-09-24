@@ -4,7 +4,7 @@ NAME=$1
 
 # Test if input is empty
 if [ -z $NAME ] ; then 
-   NAME='jenkins-npm-keytar'
+   NAME='jenkins-nvm-keytar'
 fi
 
 # Trigger docker build command with image name

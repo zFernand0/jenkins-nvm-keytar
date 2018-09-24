@@ -1,6 +1,6 @@
 #!/bin/sh
 
-IMAGE_NAME='jenkins-npm-keytar'
+IMAGE_NAME='jenkins-nvm-keytar'
 
 CONTAINER_NAME=$IMAGE_NAME'-container'
 

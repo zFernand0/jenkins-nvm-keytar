@@ -1,6 +1,6 @@
 # jenkins-npm-keytar
 
-Jenkins build agent with the ability to install the npm keytar package for credential management. Builds on [jenkins-npm-agent](https://github.com/AHumanFromCA/jenkins-npm-agent)
+Jenkins build agent with the ability to install the npm keytar package for credential management. Builds on [jenkins-nvm-agent](https://github.com/tucker01/jenkins-nvm-agent)
 
 **NOTE:** This image must have the capability `IPC_LOCK` or run as privilaged to properly operate. This can be done on the run command by adding `--cap-add ipc_lock` or `--privileged` respectively. Not specifying this capability will result in the following messages when trying to start the gnome keyring daemon: 
 

@@ -1,6 +1,6 @@
 # This Dockerfile is used to build an image capable of running the npm keytar node module
 # It must be given the capability of IPC_LOCK or be run in privilaged mode to properly operate
-FROM ahumanfromca/jenkins-npm-agent
+FROM tucker01/jenkins-nvm-agent
 
 USER root
 
@@ -39,4 +39,5 @@ RUN sed -i -e "/# If not running interactively, don't do anything/r ${tempDir}/d
 # Cleanup any temp files we have created
 RUN rm -rdf ${tempDir}
 
-CMD ["/usr/sbin/sshd", "-D"]
+# Exec ssh - used by entrypoint of base FROM image
+CMD ["--exec","/usr/sbin/sshd -D"]
