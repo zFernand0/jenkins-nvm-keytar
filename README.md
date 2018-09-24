@@ -1,4 +1,4 @@
-# jenkins-npm-keytar
+# jenkins-nvm-keytar
 
 Jenkins build agent with the ability to install the npm keytar package for credential management. Builds on [jenkins-nvm-agent](https://github.com/tucker01/jenkins-nvm-agent)
 
