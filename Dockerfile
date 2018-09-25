@@ -39,5 +39,5 @@ RUN sed -i -e "/# If not running interactively, don't do anything/r ${tempDir}/d
 # Cleanup any temp files we have created
 RUN rm -rdf ${tempDir}
 
-# Exec ssh - used by entrypoint of base FROM image
-CMD ["--exec","/usr/sbin/sshd -D"]
+# Exec ssh
+CMD ["/usr/sbin/sshd", "-D"]
