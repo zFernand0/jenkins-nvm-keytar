@@ -1,6 +1,6 @@
 # This Dockerfile is used to build an image capable of running the npm keytar node module
 # It must be given the capability of IPC_LOCK or be run in privilaged mode to properly operate
-FROM tucker01/jenkins-nvm-agent
+FROM zfernand0/jenkins-nvm-agent
 
 USER root
 
@@ -24,7 +24,7 @@ RUN cat ${tempDir}/${loginFile}>>/etc/pam.d/sshd
 # Enable unlocking for regular login
 RUN cat ${tempDir}/${loginFile}>>/etc/pam.d/login
 
-# Copy the profile script 
+# Copy the profile script
 COPY dbus_start ${tempDir}/dbus_start
 
 # Enable dbus for ssh and most other native shells (interactive)
